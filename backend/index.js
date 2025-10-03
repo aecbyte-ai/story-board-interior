@@ -37,7 +37,7 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-console.log("✅ homeHeroRoutes registered at /api/home-hero");
+
 // API routes
 app.use("/api/projects", projectRoutes);
 app.use("/api/hero", heroRoutes);
@@ -68,7 +68,7 @@ app.use("/api/servicepage" , servicePageRoutes);
 app.use("/api/contacts", contactRoutes);
 app.use("/api/hero", contactHeroRoutes);
 // MongoDB connection
-mongoose.connect("mongodb+srv://skyisnotmylimitdev:Qwerty%401234@cluster0.5nd3pca.mongodb.net/interiorDB?retryWrites=true&w=majority&appName=Cluster0")
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 

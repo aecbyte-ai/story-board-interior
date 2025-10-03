@@ -68,15 +68,6 @@ export default function Main() {
 
       
 
-      {/* Find Our Studio Section */}
-      {/* <section className="w-full px-4 sm:px-6 lg:px-20 py-12">
-        <div className="max-w-screen-2xl mx-auto">
-          <h2 className="font-['Cormorant_Garamond'] text-2xl sm:text-3xl lg:text-4xl font-bold text-[#746b5f] mb-6">
-            Find Our Studio
-          </h2>
-          <div className="w-full h-[250px] sm:h-[300px] lg:h-[377px] bg-[url(https://codia-f2c.s3.us-west-1.amazonaws.com/image/2025-08-18/OEQ8qreeWQ.png)] bg-cover bg-center bg-no-repeat rounded-lg"></div>
-        </div>
-      </section> */}
        <section className="w-full px-4 sm:px-6 lg:px-20 py-12">
       <div className="max-w-screen-2xl mx-auto">
         <h2 className="font-['Cormorant_Garamond'] text-2xl sm:text-3xl lg:text-4xl font-bold text-[#746b5f] mb-6">

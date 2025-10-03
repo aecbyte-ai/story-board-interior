@@ -24,9 +24,22 @@ export const addFeaturedTestimonial = async (req, res) => {
 
 // Update Featured Testimonial
 export const updateFeaturedTestimonial = async (req, res) => {
+  const { id } = req.params; // get id from URL
   try {
-    const updated = await FeaturedTestimonial.findOneAndUpdate({}, req.body, { new: true });
+    const updated = await FeaturedTestimonial.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updated) return res.status(404).json({ error: "Testimonial not found" });
     res.json(updated);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+export const deleteFeaturedTestimonial = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deleted = await FeaturedTestimonial.findByIdAndDelete(id);
+    if (!deleted) return res.status(404).json({ error: "Testimonial not found" });
+    res.json({ message: "Testimonial deleted successfully" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

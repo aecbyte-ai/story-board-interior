@@ -22,3 +22,25 @@ export const createTestimonial = async (req, res) => {
     res.status(500).json({ message: "Failed to create testimonial" });
   }
 };
+
+export const deleteTestimonial = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deleted = await Testimonial.findByIdAndDelete(id);
+    if (!deleted) return res.status(404).json({ error: "Testimonial not found" });
+    res.json({ message: "Testimonial deleted successfully" });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+export const updateTestimonial = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updated = await Testimonial.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updated) return res.status(404).json({ error: "Testimonial not found" });
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};

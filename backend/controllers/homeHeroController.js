@@ -13,6 +13,19 @@ export const getHomeHero = async (req, res) => {
   }
 };
 
+
+
+
+// Get all heroes (for admin)
+export const getAllHomeHeroes = async (req, res) => {
+  try {
+    const heroes = await HomeHero.find();
+    res.json(heroes);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // POST - Create hero section
 export const createHomeHero = async (req, res) => {
   try {
@@ -36,5 +49,30 @@ export const createHomeHero = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error while creating hero section" });
+  }
+};
+
+// Update
+export const updateHomeHero = async (req, res) => {
+  try {
+    const hero = await HomeHero.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(hero);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Set active
+export const setActiveHomeHero = async (req, res) => {
+  try {
+    await HomeHero.updateMany({}, { isActive: false });
+    const hero = await HomeHero.findByIdAndUpdate(
+      req.params.id,
+      { isActive: true },
+      { new: true }
+    );
+    res.json(hero);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
