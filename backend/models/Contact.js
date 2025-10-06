@@ -20,7 +20,7 @@ const contactSchema = new mongoose.Schema(
       enum: ["residential", "commercial", "hospitality", "retail", ""],
     },
     message: { type: String },
-    fileUrl: { type: String }, // you can store uploaded file URL (S3, Cloudinary, etc.)
+    fileUrl: { type: String }, 
   },
   { timestamps: true }
 );

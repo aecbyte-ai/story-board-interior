@@ -12,20 +12,31 @@ export const getAboutCTA = async (req, res) => {
 
 // Create/Update CTA
 export const createOrUpdateCTA = async (req, res) => {
-  try {
+   try {
     let cta = await AboutCTA.findOne();
+
+    // Get Cloudinary URL if file is uploaded
+    const imageUrl = req.file ? req.file.path : undefined;
+
     if (cta) {
-      cta.heading = req.body.heading;
-      cta.buttonText = req.body.buttonText;
-      cta.buttonLink = req.body.buttonLink;
-      cta.backgroundImage = req.body.backgroundImage;
+      cta.heading = req.body.heading || cta.heading;
+      cta.buttonText = req.body.buttonText || cta.buttonText;
+      cta.buttonLink = req.body.buttonLink || cta.buttonLink;
+      if (imageUrl) cta.backgroundImage = imageUrl; 
       await cta.save();
     } else {
-      cta = new AboutCTA(req.body);
+      cta = new AboutCTA({
+        heading: req.body.heading,
+        buttonText: req.body.buttonText,
+        buttonLink: req.body.buttonLink,
+        backgroundImage: imageUrl,
+      });
       await cta.save();
     }
+
     res.status(201).json(cta);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Error saving CTA", error });
   }
 };

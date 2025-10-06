@@ -14,11 +14,22 @@ export const getBrandLogos = async (req, res) => {
 // POST new brand logo (admin use)
 export const createBrandLogo = async (req, res) => {
   try {
-    const { image, name, link } = req.body;
-    const logo = await BrandLogo.create({ image, name, link });
+    if (!req.file) {
+      return res.status(400).json({ message: "Logo image is required" });
+    }
+
+    const imageUrl = req.file.path; // Cloudinary URL
+    const { name, link } = req.body;
+
+    const logo = await BrandLogo.create({
+      image: imageUrl,
+      name,
+      link,
+    });
+
     res.status(201).json(logo);
   } catch (err) {
     console.error("createBrandLogo error:", err);
-    res.status(500).json({ message: "Failed to create brand logo" });
+    res.status(500).json({ message: "Failed to create brand logo", error: err.message });
   }
 };

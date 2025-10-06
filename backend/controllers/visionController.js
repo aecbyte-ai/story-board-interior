@@ -9,23 +9,44 @@ export const getVisionSection = async (_req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 // POST Vision Section
 export const addVisionSection = async (req, res) => {
   try {
-    const section = await VisionSection.create(req.body);
+    if (!req.file) {
+      return res.status(400).json({ message: "Image is required" });
+    }
+
+    const imageUrl = req.file.path; // Cloudinary URL
+    const { heading, paragraphs } = req.body;
+
+    const section = new VisionSection({
+      heading,
+      paragraphs,
+      imageUrl,
+    });
+
+    await section.save();
     res.status(201).json(section);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("addVisionSection error:", err);
+    res.status(500).json({ message: "Failed to add vision section", error: err.message });
   }
 };
 
 // PUT Vision Section
 export const updateVisionSection = async (req, res) => {
   try {
-    const section = await VisionSection.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const imageUrl = req.file ? req.file.path : undefined;
+
+    const updateData = { ...req.body };
+    if (imageUrl) updateData.imageUrl = imageUrl;
+
+    const section = await VisionSection.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    if (!section) return res.status(404).json({ message: "Vision section not found" });
+
     res.status(200).json(section);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("updateVisionSection error:", err);
+    res.status(500).json({ message: "Failed to update vision section", error: err.message });
   }
 };

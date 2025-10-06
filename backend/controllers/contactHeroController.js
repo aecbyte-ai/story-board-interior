@@ -10,24 +10,30 @@ export const getHero = async (req, res) => {
   }
 };
 
-// Create or update hero data
 export const createOrUpdateHero = async (req, res) => {
   try {
-    const { title, description, backgroundImage } = req.body;
+    const { title, subtitle } = req.body;
+    const imageUrl = req.file ? req.file.path : undefined; // Cloudinary URL
 
-    // Optional: update if already exists
+    // Check if hero already exists
     let hero = await Hero.findOne();
+
     if (hero) {
-      hero.title = title;
-      hero.description = description;
-      hero.backgroundImage = backgroundImage;
+      hero.title = title || hero.title;
+      hero.subtitle = subtitle || hero.subtitle;
+      if (imageUrl) hero.imageUrl = imageUrl; 
     } else {
-      hero = new Hero({ title, description, backgroundImage });
+      hero = new Hero({
+        title,
+        subtitle,
+        imageUrl,
+      });
     }
 
     await hero.save();
     res.status(201).json({ success: true, message: "Hero data saved", hero });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error(error);
+    res.status(500).json({ success: false, message: "Error saving hero data", error: error.message });
   }
 };

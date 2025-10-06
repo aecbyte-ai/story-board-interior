@@ -41,8 +41,8 @@ export const createContact = async (req, res) => {
       projectLocation,
       projectType,
       message,
-      fileUrl: req.file ? `/uploads/${req.file.filename}` : null,
-    });
+      fileUrl: req.file?.path || null,
+    });//req.file ? `/uploads/${req.file.filename}` : null,
 
     await contact.save();
     res.status(201).json({

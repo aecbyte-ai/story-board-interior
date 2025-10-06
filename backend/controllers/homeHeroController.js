@@ -25,44 +25,73 @@ export const getAllHomeHeroes = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 // POST - Create hero section
 export const createHomeHero = async (req, res) => {
   try {
-    const { title, subtitle, imageUrl, scrollText, scrollIconUrl , description} = req.body;
+    // Get the uploaded files
+    const imageFile = req.files?.imageUrl?.[0]; // required hero image
+    const scrollIconFile = req.files?.scrollIcon?.[0]; // optional scroll icon
 
-    if (!title || !subtitle || !imageUrl) {
-      return res.status(400).json({ message: "Title, subtitle and imageUrl are required" });
+    if (!imageFile) {
+      return res.status(400).json({ message: "Hero image is required" });
     }
+
+    // Extract fields from form-data
+    const { title, subtitle, description, ctaText, overlayOpacity } = req.body;
+
+    if (!title || !subtitle) {
+      return res.status(400).json({ message: "Title and subtitle are required" });
+    }
+
+    // Convert overlayOpacity to a number
+    const overlayOpacityNum =
+      overlayOpacity && !isNaN(parseFloat(overlayOpacity))
+        ? parseFloat(overlayOpacity)
+        : undefined; // will use default in schema if undefined
+
 
     const newHero = new HomeHero({
       title,
       subtitle,
-      imageUrl,
-      scrollText,
-      scrollIconUrl,
-      description
+      description,
+      ctaText,
+      overlayOpacity: overlayOpacityNum,
+      imageUrl: imageFile.path,
+      scrollIconUrl: scrollIconFile?.path,
     });
 
     await newHero.save();
     res.status(201).json(newHero);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error while creating hero section" });
-  }
+    res.status(500).json({
+      message: "Server error while creating hero section",
+      error: err.message,
+    });}
+  
 };
 
-// Update
+// UPDATE hero
 export const updateHomeHero = async (req, res) => {
+
+
   try {
-    const hero = await HomeHero.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const imageUrl = req.files?.imageUrl ? req.files.imageUrl[0].path : undefined;
+    const scrollIconUrl = req.files?.scrollIcon ? req.files.scrollIcon[0].path : undefined;
+
+    const updateData = { ...req.body };
+    if (imageUrl) updateData.imageUrl = imageUrl;
+    if (scrollIconUrl) updateData.scrollIcon = scrollIconUrl;
+
+    const hero = await HomeHero.findByIdAndUpdate(req.params.id, updateData, { new: true });
     res.json(hero);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 };
 
-// Set active
+// SET active
 export const setActiveHomeHero = async (req, res) => {
   try {
     await HomeHero.updateMany({}, { isActive: false });
@@ -73,6 +102,7 @@ export const setActiveHomeHero = async (req, res) => {
     );
     res.json(hero);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 };

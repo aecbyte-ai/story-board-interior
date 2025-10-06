@@ -4,7 +4,7 @@ const featuredTestimonialSchema = new mongoose.Schema({
   quote: { type: String, required: true },
   description: { type: String, required: true },
   author: { type: String, required: true },
-  designation: { type: String, required: true }, // e.g. "Manhattan Residence, Complete Renovation"
+  designation: { type: String, required: true }, 
   imageUrl: { type: String, required: true }, // testimonial image
 });
 

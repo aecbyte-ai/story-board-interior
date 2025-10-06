@@ -10,26 +10,46 @@ export const getFeaturedTestimonial = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-// Add Featured Testimonial
 export const addFeaturedTestimonial = async (req, res) => {
   try {
-    const newTestimonial = new FeaturedTestimonial(req.body);
-    await newTestimonial.save();
+    if (!req.file) {
+      return res.status(400).json({ message: "Testimonial image is required" });
+    } 
+    console.log("req.body:", req.body);
+
+    const imageUrl = req.file.path; // Cloudinary URL
+    const { quote, description, author, designation } = req.body;
+
+    const newTestimonial = await FeaturedTestimonial.create({
+      quote,
+      description,
+      author,
+      designation,
+      imageUrl,
+    });
+
     res.status(201).json(newTestimonial);
   } catch (err) {
+    console.error("addFeaturedTestimonial error:", err);
     res.status(400).json({ error: err.message });
   }
 };
 
-// Update Featured Testimonial
+// UPDATE Featured Testimonial
 export const updateFeaturedTestimonial = async (req, res) => {
   const { id } = req.params; // get id from URL
   try {
-    const updated = await FeaturedTestimonial.findByIdAndUpdate(id, req.body, { new: true });
+    const imageUrl = req.file ? req.file.path : undefined;
+
+    const updateData = { ...req.body };
+    if (imageUrl) updateData.imageUrl = imageUrl; // update image only if uploaded
+
+    const updated = await FeaturedTestimonial.findByIdAndUpdate(id, updateData, { new: true });
     if (!updated) return res.status(404).json({ error: "Testimonial not found" });
+
     res.json(updated);
   } catch (err) {
+    console.error("updateFeaturedTestimonial error:", err);
     res.status(400).json({ error: err.message });
   }
 };

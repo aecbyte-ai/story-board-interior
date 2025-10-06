@@ -1,12 +1,25 @@
 import Project from "../models/FeaturedProject.js";
-
-// Add new project
+// ADD Project
 export const addProject = async (req, res) => {
   try {
-    const project = await Project.create(req.body);
+    if (!req.file) {
+      return res.status(400).json({ message: "Project image is required" });
+    }
+
+    const imageUrl = req.file.path; // Cloudinary URL
+    const { title, description, category } = req.body;
+
+    const project = await FeaturedProject.create({
+      title,
+      description,
+      category,
+      imageUrl,
+    });
+
     res.status(201).json(project);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("addProject error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 

@@ -7,6 +7,8 @@ import {
   getAllHomeHeroes,
 } from "../controllers/homeHeroController.js";
 
+import {upload} from "../middleware/upload.js";
+
 const router = express.Router();
 
 // Get active hero (for frontend)
@@ -16,10 +18,16 @@ router.get("/", getHomeHero);
 router.get("/all", getAllHomeHeroes);
 
 // Create new hero
-router.post("/", createHomeHero);
+router.post("/",  upload.fields([
+  { name: "imageUrl", maxCount: 1 },
+  { name: "scrollIcon", maxCount: 1 },
+]), createHomeHero);
 
 // Update existing hero
-router.put("/:id", updateHomeHero);
+router.put("/:id", upload.fields([
+  { name: "imageUrl", maxCount: 1 },
+  { name: "scrollIcon", maxCount: 1 },
+]), updateHomeHero);
 
 // Set hero active
 router.patch("/:id/active", setActiveHomeHero);

@@ -66,7 +66,7 @@ app.use("/api/team", teamRoutes);
 app.use("/api/about-cta", aboutCTARoutes);
 app.use("/api/servicepage" , servicePageRoutes);
 app.use("/api/contacts", contactRoutes);
-app.use("/api/hero", contactHeroRoutes);
+app.use("/api/contact-hero", contactHeroRoutes);
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))

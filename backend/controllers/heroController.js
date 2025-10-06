@@ -1,4 +1,5 @@
 import Hero from "../models/Hero.js";
+import cloudinary from "../config/cloudinary.js";
 
 // GET hero section
 export const getHero = async (req, res) => {
@@ -13,24 +14,47 @@ export const getHero = async (req, res) => {
 
 // POST hero section (Admin only - create new)
 export const createHero = async (req, res) => {
-  try {
-    const hero = new Hero(req.body);
+  
+   try {
+    const imageFile = req.files?.imageUrl?.[0];
+    if (!imageFile) {
+      return res.status(400).json({ message: "Hero image is required" });
+    }
+
+    const scrollIconFile = req.files?.scrollIcon?.[0];
+
+    const hero = new Hero({
+      ...req.body,
+      imageUrl: imageFile.path,
+      scrollIconUrl: scrollIconFile?.path, // optional
+    });
+
     const savedHero = await hero.save();
     res.status(201).json(savedHero);
   } catch (err) {
+    console.error("createHero error:", err);
     res.status(400).json({ message: err.message });
   }
 };
 
-// PUT hero section (update)
+// UPDATE Hero
 export const updateHero = async (req, res) => {
   try {
-    const updatedHero = await Hero.findOneAndUpdate({}, req.body, {
+    const imageUrl = req.file ? req.file.path : undefined;
+    const scrollIconUrl = req.files?.scrollIcon ? req.files.scrollIcon[0].path : undefined;
+
+    const updateData = { ...req.body };
+    if (imageUrl) updateData.imageUrl = imageUrl;
+    if (scrollIconUrl) updateData.scrollIconUrl = scrollIconUrl;
+
+    const updatedHero = await Hero.findOneAndUpdate({}, updateData, {
       new: true,
-      upsert: true, // creates one if it doesn't exist
+      upsert: true, // create if not exists
     });
-    res.json(updatedHero);
+
+    res.status(200).json(updatedHero);
   } catch (err) {
+    console.error("updateHero error:", err);
     res.status(400).json({ message: err.message });
   }
 };

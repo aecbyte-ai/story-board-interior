@@ -24,21 +24,57 @@ export const getFeaturedProjects = async (req, res) => {
 // Add a new project
 export const addProject = async (req, res) => {
   try {
-    const project = await Project.create(req.body);
+    const { title, category, description, tags, status, featured, visible } =
+      req.body;
+
+    
+    if (!title || !category) {
+      return res
+        .status(400)
+        .json({ message: "Title and category are required" });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: "Project image is required" });
+    }
+
+    
+    const imageUrl = req.file?.path;
+
+    const project = await Project.create({
+      title,
+      category,
+      description,
+      tags: tags ? tags.split(",").map((t) => t.trim()) : [],
+      status,
+      featured: featured === "true",
+      visible: visible === "true",
+      imageUrl,
+    });
+
     res.status(201).json(project);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("addProject error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 // Update a project by ID
 export const updateProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedProject = await Project.findByIdAndUpdate(id, req.body, { new: true });
+    const imageUrl = req.file ? req.file.path : undefined;
+
+    const updateData = { ...req.body };
+    if (imageUrl) updateData.imageUrl = imageUrl; // update image only if uploaded
+
+    const updatedProject = await Project.findByIdAndUpdate(id, updateData, { new: true });
     if (!updatedProject) return res.status(404).json({ message: "Project not found" });
+
     res.json(updatedProject);
   } catch (error) {
+    console.error("updateProject error:", error);
     res.status(500).json({ message: error.message });
   }
 };
