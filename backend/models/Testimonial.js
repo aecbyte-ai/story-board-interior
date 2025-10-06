@@ -4,7 +4,7 @@ const testimonialSchema = new mongoose.Schema(
   {
     text: { type: String, required: true },
     client: { type: String, required: true },
-    project: { type: String }, // optional: project name or location
+    image: { type: String }, 
   },
   { timestamps: true }
 );

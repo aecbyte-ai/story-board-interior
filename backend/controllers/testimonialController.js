@@ -13,9 +13,17 @@ export const getTestimonials = async (req, res) => {
 
 // POST a new testimonial (admin use)
 export const createTestimonial = async (req, res) => {
-  try {
+   try {
     const { text, client, project } = req.body;
-    const newTestimonial = await Testimonial.create({ text, client, project });
+    const image = req.file ? req.file.path : ""; 
+
+    const newTestimonial = await Testimonial.create({
+      text,
+      client,
+      project,
+      image,
+    });
+
     res.status(201).json(newTestimonial);
   } catch (err) {
     console.error("createTestimonial error:", err);
@@ -37,8 +45,16 @@ export const deleteTestimonial = async (req, res) => {
 export const updateTestimonial = async (req, res) => {
   const { id } = req.params;
   try {
-    const updated = await Testimonial.findByIdAndUpdate(id, req.body, { new: true });
+    const updateData = { ...req.body };
+
+    // If an image file is uploaded, add its Cloudinary URL
+    if (req.file?.path) {
+      updateData.image = req.file.path;
+    }
+
+    const updated = await Testimonial.findByIdAndUpdate(id, updateData, { new: true });
     if (!updated) return res.status(404).json({ error: "Testimonial not found" });
+
     res.json(updated);
   } catch (err) {
     res.status(400).json({ error: err.message });
