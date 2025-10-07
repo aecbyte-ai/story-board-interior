@@ -34,8 +34,10 @@ export default function Main() {
   useEffect(() => {
     const fetchStudio = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/studios');
-        
+        const res = await axios.get(
+          "http://localhost:3000/api/contacts/studios"
+        );
+
         setStudio(res.data[0]);
         setLoading(false);
       } catch (err) {
@@ -66,20 +68,18 @@ export default function Main() {
       <Hero />
       <FormSection formData={data?.form || formConfig} />
 
-      
-
-       <section className="w-full px-4 sm:px-6 lg:px-20 py-12">
-      <div className="max-w-screen-2xl mx-auto">
-        <h2 className="font-['Cormorant_Garamond'] text-2xl sm:text-3xl lg:text-4xl font-bold text-[#746b5f] mb-6">
-          Find Our Studio
-        </h2>
-        <div
-          className="w-full h-[250px] sm:h-[300px] lg:h-[377px] bg-cover bg-center bg-no-repeat rounded-lg"
-          style={{ backgroundImage: `url(${studio?.imageUrl})` }}
-        ></div>
-        <p className="mt-4 text-[#746b5f] font-medium">{studio?.location}</p>
-      </div>
-    </section>
+      <section className="w-full px-4 sm:px-6 lg:px-20 py-12">
+        <div className="max-w-screen-2xl mx-auto">
+          <h2 className="font-['Cormorant_Garamond'] text-2xl sm:text-3xl lg:text-4xl font-bold text-[#746b5f] mb-6">
+            Find Our Studio
+          </h2>
+          <div
+            className="w-full h-[250px] sm:h-[300px] lg:h-[377px] bg-cover bg-center bg-no-repeat rounded-lg"
+            style={{ backgroundImage: `url(${studio?.imageUrl})` }}
+          ></div>
+          <p className="mt-4 text-[#746b5f] font-medium">{studio?.location}</p>
+        </div>
+      </section>
     </div>
   );
 }

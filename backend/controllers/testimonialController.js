@@ -3,7 +3,7 @@ import Testimonial from "../models/Testimonial.js";
 // GET all testimonials
 export const getTestimonials = async (req, res) => {
   try {
-    const testimonials = await Testimonial.find().sort({ createdAt: 1 });
+    const testimonials = await Testimonial.find().sort({ createdAt: -1 }).limit(4);
     res.status(200).json(testimonials);
   } catch (err) {
     console.error("getTestimonials error:", err);

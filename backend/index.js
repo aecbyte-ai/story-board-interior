@@ -32,6 +32,7 @@ import servicePageRoutes from "./routes/servicePageRoutes.js"
 import contactRoutes from "./routes/contactRoutes.js";
 import contactHeroRoutes from "./routes/contactHeroRoutes.js";
 
+
 dotenv.config();
 
 const app = express();
@@ -39,6 +40,7 @@ app.use(cors());
 app.use(express.json());
 
 // API routes
+
 app.use("/api/projects", projectRoutes);
 app.use("/api/hero", heroRoutes);
 app.use("/api/cta", ctaRoutes);
@@ -68,7 +70,7 @@ app.use("/api/servicepage" , servicePageRoutes);
 app.use("/api/contacts", contactRoutes);
 app.use("/api/contact-hero", contactHeroRoutes);
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect("mongodb+srv://skyisnotmylimitdev:Qwerty%401234@cluster0.5nd3pca.mongodb.net/interiorDB?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 

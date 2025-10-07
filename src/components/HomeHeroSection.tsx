@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface Hero {
   _id: string;
@@ -14,6 +15,7 @@ interface Hero {
 
 export const HomeHeroSection: React.FC = () => {
   const [heroData, setHeroData] = useState<Hero | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchHero = async () => {
@@ -64,12 +66,14 @@ export const HomeHeroSection: React.FC = () => {
           <button
             className="px-4 sm:px-6 py-3 bg-[#746b5f] border border-[#858585] text-white font-semibold uppercase shadow-lg hover:bg-[#635a4f] transition-colors text-sm sm:text-base"
             style={{ fontFamily: "Cormorant Garamond, serif" }}
+            onClick={() => navigate("/portfolio")}
           >
             View Portfolio
           </button>
           <button
             className="px-4 sm:px-6 py-3 border border-white text-white font-semibold uppercase hover:bg-white hover:text-[#746b5f] transition-colors text-sm sm:text-base"
             style={{ fontFamily: "Cormorant Garamond, serif" }}
+            onClick={() => navigate("/contact")}
           >
             Meet the Studio
           </button>

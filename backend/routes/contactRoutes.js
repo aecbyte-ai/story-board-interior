@@ -4,7 +4,7 @@ import { createContact, getContacts , getStudios , addStudio} from "../controlle
 import  uploadMiddleware from "../middleware/upload.js";
 
 
-
+import queryMiddleware from "../middleware/queryMiddleware";
 const router = express.Router();
 
 router.get('/studios', getStudios);
