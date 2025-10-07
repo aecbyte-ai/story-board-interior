@@ -2,11 +2,11 @@ import HomeHero from "../models/HomeHero.js";
 
 export const getHomeHero = async (req, res) => {
   try {
-    const hero = await HomeHero.findOne();
-    if (!hero) {
-      return res.status(404).json({ message: "Home hero not found" });
+     const activeHero = await HomeHero.findOne({ isActive: true });
+    if (!activeHero) {
+      return res.status(404).json({ message: "No active home hero found" });
     }
-    res.status(200).json(hero);
+    res.json(activeHero);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
