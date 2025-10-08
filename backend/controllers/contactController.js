@@ -14,6 +14,8 @@ export const getStudios = async (req, res) => {
 
 export const addStudio = async (req, res) => {
   try {
+    
+
     const { name, imageUrl, location } = req.body;
 
     if (!name || !imageUrl || !location) {
@@ -25,6 +27,7 @@ export const addStudio = async (req, res) => {
 
     res.status(201).json({ message: 'Studio added successfully', studio: newStudio });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };

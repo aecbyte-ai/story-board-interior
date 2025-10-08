@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -27,28 +25,27 @@ const Services_Page = () => {
     axios
       .get("http://localhost:3000/api/servicepage")
       .then((res) => setData(res.data));
+    console.log("Service page response:", data);
   }, []);
-
-  if (!data) return <p>Loading...</p>;
 
   return (
     <>
       {/* Hero Section */}
       <div
         className="h-[50vh] sm:h-[60vh] lg:h-[470px] bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center text-center px-4"
-        style={{ backgroundImage: `url(${data.hero.backgroundImage})` }}
+        style={{ backgroundImage: `url(${data?.hero.backgroundImage})` }}
       >
         <h1
           className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white uppercase mb-4"
           style={{ fontFamily: "Cormorant Garamond, serif" }}
         >
-          {data.hero.title}
+          {data?.hero.title}
         </h1>
         <p
           className="text-base sm:text-lg lg:text-xl font-medium text-white/80 max-w-4xl mx-auto leading-relaxed"
           style={{ fontFamily: "Manrope, sans-serif" }}
         >
-          {data.hero.description}
+          {data?.hero.description}
         </p>
       </div>
 
@@ -59,13 +56,13 @@ const Services_Page = () => {
             className="text-base sm:text-lg lg:text-xl font-medium text-[#746b5f] leading-relaxed"
             style={{ fontFamily: "Manrope, sans-serif" }}
           >
-            {data.intro.description}
+            {data?.intro.description}
           </p>
         </div>
       </div>
 
       {/* Services */}
-      {data.services.map((service, idx) => (
+      {data?.services.map((service, idx) => (
         <div
           key={idx}
           className={`${
@@ -118,7 +115,7 @@ const Services_Page = () => {
       {/* Gallery */}
       <div className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-          {data.gallery.images.map((img, i) => (
+          {data?.gallery.images.map((img, i) => (
             <div
               key={i}
               className="aspect-[3/4] bg-cover bg-center"
@@ -131,19 +128,19 @@ const Services_Page = () => {
       {/* CTA */}
       <div
         className="h-[50vh] sm:h-[60vh] lg:h-[416px] bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center text-center px-4"
-        style={{ backgroundImage: `url(${data.cta.backgroundImage})` }}
+        style={{ backgroundImage: `url(${data?.cta.backgroundImage})` }}
       >
         <h2
           className="text-2xl sm:text-3xl lg:text-5xl font-bold text-white mb-8 max-w-4xl mx-auto leading-tight"
           style={{ fontFamily: "Cormorant Garamond, serif" }}
         >
-          {data.cta.text}
+          {data?.cta.text}
         </h2>
         <button
           className="px-6 py-3 bg-white text-[#746b5f] font-semibold uppercase hover:bg-gray-100 transition-colors"
           style={{ fontFamily: "Cormorant Garamond, serif" }}
         >
-          {data.cta.buttonText}
+          {data?.cta.buttonText}
         </button>
       </div>
     </>

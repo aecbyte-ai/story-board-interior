@@ -5,10 +5,11 @@ import  uploadMiddleware from "../middleware/upload.js";
 
 
 import queryMiddleware from "../middleware/queryMiddleware";
+
 const router = express.Router();
 
 router.get('/studios', getStudios);
-router.post('/studios', addStudio);
+router.post('/studios',express.json() ,  addStudio);
 
 
 

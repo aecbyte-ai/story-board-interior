@@ -40,7 +40,7 @@ export default function ClientTestimonials() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
-          {testimonials.map((t) => (
+          {testimonials.slice(0, 3).map((t) => (
             <div
               key={t._id}
               className="bg-white border border-[#eaeaea] p-6 lg:p-8"
@@ -55,7 +55,8 @@ export default function ClientTestimonials() {
                 className="text-base sm:text-lg text-[#746b5f] text-center"
                 style={{ fontFamily: "Manrope, sans-serif" }}
               >
-                {t.client}{t.project ? `, ${t.project}` : ""}
+                {t.client}
+                {t.project ? `, ${t.project}` : ""}
               </p>
             </div>
           ))}

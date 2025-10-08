@@ -217,8 +217,8 @@ export default function SignatureProjects() {
           className="text-base sm:text-lg text-[rgba(122,116,108,0.8)] text-center mb-12 sm:mb-16 max-w-4xl mx-auto"
           style={{ fontFamily: "Manrope, sans-serif" }}
         >
-          Our curated collection of distinctive spaces, each with their own
-          unique narrative.
+          Each project is more than a space — it is a narrative of culture,
+          lifestyle, and vision brought to life.
         </p>
         <div className="max-w-7xl mx-auto">
           <Carousel projects={projects} />

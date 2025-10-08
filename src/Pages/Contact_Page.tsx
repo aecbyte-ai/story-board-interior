@@ -73,10 +73,20 @@ export default function Main() {
           <h2 className="font-['Cormorant_Garamond'] text-2xl sm:text-3xl lg:text-4xl font-bold text-[#746b5f] mb-6">
             Find Our Studio
           </h2>
-          <div
+          {/* <div
             className="w-full h-[250px] sm:h-[300px] lg:h-[377px] bg-cover bg-center bg-no-repeat rounded-lg"
             style={{ backgroundImage: `url(${studio?.imageUrl})` }}
-          ></div>
+          ></div> */}
+          <iframe
+            src={`https://www.google.com/maps?q=${encodeURIComponent(
+              studio?.location || ""
+            )}&output=embed`}
+            width="100%"
+            height="377"
+            style={{ border: 0, borderRadius: "12px" }}
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
           <p className="mt-4 text-[#746b5f] font-medium">{studio?.location}</p>
         </div>
       </section>
