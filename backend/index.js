@@ -70,7 +70,7 @@ app.use("/api/servicepage" , servicePageRoutes);
 app.use("/api/contacts", contactRoutes);
 app.use("/api/contact-hero", contactHeroRoutes);
 // MongoDB connection
-mongoose.connect("mongodb+srv://skyisnotmylimitdev:Qwerty%401234@cluster0.5nd3pca.mongodb.net/interiorDB?retryWrites=true&w=majority&appName=Cluster0")
+mongoose.connect("mongodb+srv://satyansh:SecurePass@123@cluster0.gryyugd.mongodb.net/?appName=Cluster0")
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
